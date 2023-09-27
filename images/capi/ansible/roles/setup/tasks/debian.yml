@@ -117,3 +117,9 @@
 - name: Remove '--no-tpm --no-efivars' from nullboot post install script
   command: "sed -i 's/nullbootctl --no-tpm --no-efivars/nullbootctl/' /var/lib/dpkg/info/nullboot.postinst"
   when: packer_build_name is search('cvm')
+
+- name: Install nfs-common
+  apt:
+    name: nfs-common
+    state: present
+    force: yes
