@@ -1,0 +1,6 @@
+---
+
+ca_cert_data: BASE64_CA_CERT
+
+ca_cert_dir: /usr/local/share/ca-certificates
+ca_cert_file: "{{ ca_cert_dir }}/zero_ca.crt"
