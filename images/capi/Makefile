@@ -53,60 +53,67 @@ version: ## Display version of image-builder
 deps: ## Installs/checks all dependencies
 deps: deps-ami deps-azure deps-do deps-gce deps-ova deps-openstack deps-qemu deps-raw deps-oci deps-osc deps-vbox deps-powervs deps-nutanix deps-hcloud
 
-.PHONY: deps-common
-deps-common: ## Installs/checks dependencies common to most builds
-deps-common:
-	hack/ensure-python.sh
-	hack/ensure-ansible.sh
-	hack/ensure-packer.sh
-
 .PHONY: deps-ami
 deps-ami: ## Installs/checks dependencies for AMI builds
-deps-ami: deps-common
+deps-ami:
+	hack/ensure-ansible.sh
 	hack/ensure-ansible-windows.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 
 .PHONY: deps-azure
 deps-azure: ## Installs/checks dependencies for Azure builds
-deps-azure: deps-common
+deps-azure:
+	hack/ensure-ansible.sh
 	hack/ensure-ansible-windows.sh
-	hack/ensure-goss.sh
+	hack/ensure-packer.sh
 	hack/ensure-jq.sh
 	hack/ensure-azure-cli.sh
+	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 	$(PACKER) init packer/azure/config.pkr.hcl
 
 .PHONY: deps-do
 deps-do: ## Installs/checks dependencies for DigitalOcean builds
-deps-do: deps-common
+deps-do:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	$(PACKER) init packer/config.pkr.hcl
 	$(PACKER) init packer/digitalocean/config.pkr.hcl
 
 .PHONY: deps-osc
 deps-osc: ## Installs/checks dependencies for Outscale builds
-deps-osc: deps-common
+deps-osc:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 	$(PACKER) plugins install github.com/outscale/outscale
 
 .PHONY: deps-gce
 deps-gce: ## Installs/checks dependencies for GCE builds
-deps-gce: deps-common
+deps-gce:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 
 .PHONY: deps-ova
 deps-ova: ## Installs/checks dependencies for OVA builds
-deps-ova: deps-common
+deps-ova:
+	hack/ensure-ansible.sh
 	hack/ensure-ansible-windows.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	hack/ensure-ovftool.sh
 	$(PACKER) init packer/config.pkr.hcl
 
 .PHONY: deps-openstack
 deps-openstack: ## Installs/checks dependencies for OpenStack builds
-deps-openstack: deps-common
+deps-openstack:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	hack/ensure-s3.sh
 	$(PACKER) init packer/config.pkr.hcl
@@ -114,33 +121,43 @@ deps-openstack: deps-common
 
 .PHONY: deps-qemu
 deps-qemu: ## Installs/checks dependencies for QEMU builds
-deps-qemu: deps-common
+deps-qemu:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 
 .PHONY: deps-raw
 deps-raw: ## Installs/checks dependencies for RAW builds
-deps-raw: deps-common
+deps-raw:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 
 .PHONY: deps-oci
 deps-oci: ## Installs/checks dependencies for OCI builds
-deps-oci: deps-common
+deps-oci:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-ansible-windows.sh
 	$(PACKER) init packer/config.pkr.hcl
 	$(PACKER) plugins install github.com/hashicorp/oracle
 
 .PHONY: deps-vbox
 deps-vbox: ## Installs/checks dependencies for VirtualBox builds
-deps-vbox: deps-common
+deps-vbox:
+	hack/ensure-ansible.sh
 	hack/ensure-ansible-windows.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 
 .PHONY: deps-powervs
 deps-powervs: ## Installs/checks dependencies for PowerVS builds
-deps-powervs: deps-common
+deps-powervs:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	hack/ensure-powervs.sh
 	$(PACKER) init packer/config.pkr.hcl
@@ -153,7 +170,9 @@ deps-ignition:
 
 .PHONY: deps-nutanix
 deps-nutanix: ## Installs/checks dependencies for Nutanix builds
-deps-nutanix: deps-common
+deps-nutanix:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 	$(PACKER) init packer/nutanix/config.pkr.hcl
@@ -167,23 +186,12 @@ deps-release: ## Installs/checks dependencies for project releases
 
 .PHONY: deps-hcloud
 deps-hcloud: ## Installs/checks dependencies for Hetznercloud builds
-deps-hcloud: deps-common
+deps-hcloud:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 	$(PACKER) init packer/hcloud/config.pkr.hcl
-
-.PHONY: deps-proxmox
-deps-proxmox: ## Installs/checks dependencies for Proxmox builds
-deps-proxmox: deps-common
-	hack/ensure-goss.sh
-	$(PACKER) init packer/config.pkr.hcl
-	$(PACKER) init packer/proxmox/config.pkr.hcl
-
-.PHONY: deps-lint
-deps-lint: ## Installs/checks dependencies for image-builder code linting
-deps-lint: deps-common
-	hack/ensure-ansible-windows.sh
-	hack/ensure-ansible-lint.sh
 
 ## --------------------------------------
 ## Container variables
@@ -266,7 +274,7 @@ endif
 # A list of variable files given to Packer to configure things like the versions
 # of Kubernetes, CNI, and ContainerD to install. Any additional files from the
 # environment are appended.
-COMMON_NODE_VAR_FILES := packer/config/kubernetes.json \
+COMMON_NODE_VAR_FILES :=	packer/config/kubernetes.json \
 					packer/config/cni.json \
 					packer/config/containerd.json \
 					packer/config/wasm-shims.json \
@@ -364,7 +372,7 @@ OCI_BUILD_NAMES			   ?= oci-ubuntu-2004 oci-ubuntu-2204 oci-oracle-linux-8 oci-o
 
 DO_BUILD_NAMES 			?=	do-centos-7 do-ubuntu-2004
 
-OPENSTACK_BUILD_NAMES	?=	openstack-ubuntu-2004 openstack-ubuntu-2204 openstack-flatcar
+OPENSTACK_BUILD_NAMES	?=	openstack-ubuntu-2004 openstack-ubuntu-2204 openstack-flatcar openstack-rockylinux-8
 
 OSC_BUILD_NAMES 			?=	osc-ubuntu-2004
 
@@ -378,11 +386,7 @@ VBOX_BUILD_NAMES			?=      vbox-windows-2019
 POWERVS_BUILD_NAMES         ?= powervs-centos-8
 
 NUTANIX_BUILD_NAMES ?= nutanix-ubuntu-2004 nutanix-ubuntu-2204 nutanix-rhel-8 nutanix-rhel-9 nutanix-rockylinux-8 nutanix-rockylinux-9 nutanix-flatcar nutanix-windows-2022
-
 HCLOUD_BUILD_NAMES ?= hcloud-ubuntu-2004 hcloud-ubuntu-2204 hcloud-centos-7 hcloud-rockylinux-8 hcloud-rockylinux-9 hcloud-flatcar
-
-PROXMOX_BUILD_NAMES 		?= proxmox-ubuntu-2204
-
 ## --------------------------------------
 ## Dynamic build targets
 ## --------------------------------------
@@ -427,8 +431,6 @@ NUTANIX_BUILD_TARGETS		:= $(addprefix build-,$(NUTANIX_BUILD_NAMES))
 NUTANIX_VALIDATE_TARGETS	:= $(addprefix validate-,$(NUTANIX_BUILD_NAMES))
 HCLOUD_BUILD_TARGETS		:= $(addprefix build-,$(HCLOUD_BUILD_NAMES))
 HCLOUD_VALIDATE_TARGETS		:= $(addprefix validate-,$(HCLOUD_BUILD_NAMES))
-PROXMOX_BUILD_TARGETS		:= $(addprefix build-,$(PROXMOX_BUILD_NAMES))
-PROXMOX_VALIDATE_TARGETS	:= $(addprefix validate-,$(PROXMOX_BUILD_NAMES))
 
 .PHONY: $(NODE_OVA_LOCAL_BUILD_TARGETS)
 $(NODE_OVA_LOCAL_BUILD_TARGETS): deps-ova
@@ -595,20 +597,12 @@ $(NUTANIX_VALIDATE_TARGETS): deps-nutanix
 	$(PACKER) validate $(if $(findstring windows,$@),$(PACKER_WINDOWS_NODE_FLAGS),$(PACKER_NODE_FLAGS)) -var-file="packer/nutanix/nutanix.json" -var-file="$(abspath packer/nutanix/$(subst validate-nutanix-,,$@).json)" $(ABSOLUTE_PACKER_VAR_FILES) packer/nutanix/packer$(if $(findstring windows,$@),-windows,).json
 
 .PHONY: $(HCLOUD_BUILD_TARGETS)
-$(HCLOUD_BUILD_TARGETS): deps-hcloud
+$(HCLOUD_BUILD_TARGETS): deps-hcloud 
 	$(PACKER) build $(PACKER_NODE_FLAGS) -var-file="packer/hcloud/hcloud-config.json" -var-file="$(abspath packer/hcloud/$(subst build-hcloud-,,$@).json)" $(ABSOLUTE_PACKER_VAR_FILES) packer/hcloud/packer$(if $(findstring flatcar,$@),-flatcar,).json
 
 .PHONY: $(HCLOUD_VALIDATE_TARGETS)
-$(HCLOUD_VALIDATE_TARGETS): deps-hcloud
+$(HCLOUD_VALIDATE_TARGETS): deps-hcloud 
 	$(PACKER) validate $(PACKER_NODE_FLAGS) -var-file="packer/hcloud/hcloud-config.json" -var-file="$(abspath packer/hcloud/$(subst validate-hcloud-,,$@).json)" $(ABSOLUTE_PACKER_VAR_FILES) packer/hcloud/packer$(if $(findstring flatcar,$@),-flatcar,).json
-
-.PHONY: $(PROXMOX_BUILD_TARGETS)
-$(PROXMOX_BUILD_TARGETS): deps-proxmox
-	$(PACKER) build $(PACKER_NODE_FLAGS) -var-file="$(abspath packer/proxmox/$(subst build-proxmox-,,$@).json)" $(ABSOLUTE_PACKER_VAR_FILES) packer/proxmox/packer.json
-
-.PHONY: $(PROXMOX_VALIDATE_TARGETS)
-$(PROXMOX_VALIDATE_TARGETS): deps-proxmox
-	$(PACKER) validate $(PACKER_NODE_FLAGS) -var-file="$(abspath packer/proxmox/$(subst validate-proxmox-,,$@).json)" $(ABSOLUTE_PACKER_VAR_FILES) packer/proxmox/packer.json
 
 ## --------------------------------------
 ## Dynamic clean targets
@@ -757,6 +751,7 @@ build-node-ova-local-base-ubuntu-2004: ## Builds Ubuntu 20.04 Base Node OVA w lo
 
 build-openstack-ubuntu-2004: ## Builds Ubuntu 20.04 OpenStack image
 build-openstack-ubuntu-2204: ## Builds Ubuntu 22.04 OpenStack image
+build-openstack-rockylinux-8: ## Builds Ubuntu 22.04 OpenStack image
 build-openstack-flatcar: ## Builds Flatcar OpenStack image
 build-openstack-all: $(OPENSTACK_BUILD_TARGETS)
 
@@ -807,8 +802,6 @@ build-hcloud-rockylinux-8: ## Builds the Hetzner Cloud Rocky Linux 8 image
 build-hcloud-rockylinux-9: ## Builds the Hetzner Cloud Rocky Linux 9 image
 build-hcloud-flatcar: ## Builds the Hetzner Cloud Flatcar image
 build-hcloud-all: $(HCLOUD_BUILD_TARGETS) ## Builds all Hetzner Cloud image
-
-build-proxmox-ubuntu-2204: ## Builds the Proxmox ubuntu-2204 image
 
 ## --------------------------------------
 ## Document dynamic validate targets
@@ -947,8 +940,6 @@ validate-hcloud-rockylinux-9: ## Validates the Hetzner Cloud Rocky Linux 9 Nutan
 validate-hcloud-flatcar: ## Validates the Hetzner Cloud Flatcar Nutanix Packer config
 validate-hcloud-all: $(HCLOUD_VALIDATE_TARGETS) ## Validates all Hetzner Cloud Packer config
 
-validate-proxmox-ubuntu-2204: ## Validates Ubuntu 22.04 Proxmox Packer config
-
 validate-all: validate-ami-all \
 	validate-azure-all \
 	validate-do-all \
@@ -957,28 +948,13 @@ validate-all: validate-ami-all \
 	validate-qemu-all \
 	validate-raw-all \
 	validate-oci-all \
-	validate-osc-all \
+        validate-osc-all \
 	validate-vbox-all \
 	validate-powervs-all \
 	validate-nutanix-all \
 	validate-hcloud-all
 
 validate-all: ## Validates the Packer config for all build targets
-
-.PHONY: lint
-lint: ## Runs linters on image-builder code
-lint: deps-lint
-	ansible-lint ansible/
-
-.PHONY: lint-fix
-lint-fix: ## Runs linters on image-builder code and fixes issues
-lint-fix: deps-lint
-	ansible-lint --fix=all ansible/
-
-.PHONY: lint-ignore
-lint-ignore: ## Runs linters on image-builder code and creates an "ignore" file
-lint-ignore: deps-lint
-	ansible-lint --generate-ignore ansible/
 
 ## --------------------------------------
 ## Clean targets
