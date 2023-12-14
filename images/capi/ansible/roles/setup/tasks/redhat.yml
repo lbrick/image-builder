@@ -58,3 +58,13 @@
     name: "{{ extra_rpms.split() }}"
     state: present
     lock_timeout: 60
+
+- name: allow Kubernetes ports
+  shell: >-
+    firewall-cmd --permanent --add-port={6443,2379,2380,10250,10251,10252,10257,10259,179,30000-32767}/tcp
+  become: true
+
+- name: allow Kubernetes ports
+  shell: >-
+    firewall-cmd --permanent --add-port=4789/udp
+  become: true

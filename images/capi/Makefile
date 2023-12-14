@@ -62,51 +62,65 @@ deps-common:
 
 .PHONY: deps-ami
 deps-ami: ## Installs/checks dependencies for AMI builds
-deps-ami: deps-common
+deps-ami:
+	hack/ensure-ansible.sh
 	hack/ensure-ansible-windows.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 
 .PHONY: deps-azure
 deps-azure: ## Installs/checks dependencies for Azure builds
-deps-azure: deps-common
+deps-azure:
+	hack/ensure-ansible.sh
 	hack/ensure-ansible-windows.sh
-	hack/ensure-goss.sh
+	hack/ensure-packer.sh
 	hack/ensure-jq.sh
 	hack/ensure-azure-cli.sh
+	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 	$(PACKER) init packer/azure/config.pkr.hcl
 
 .PHONY: deps-do
 deps-do: ## Installs/checks dependencies for DigitalOcean builds
-deps-do: deps-common
+deps-do:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	$(PACKER) init packer/config.pkr.hcl
 	$(PACKER) init packer/digitalocean/config.pkr.hcl
 
 .PHONY: deps-osc
 deps-osc: ## Installs/checks dependencies for Outscale builds
-deps-osc: deps-common
+deps-osc:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 	$(PACKER) plugins install github.com/outscale/outscale
 
 .PHONY: deps-gce
 deps-gce: ## Installs/checks dependencies for GCE builds
-deps-gce: deps-common
+deps-gce:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 
 .PHONY: deps-ova
 deps-ova: ## Installs/checks dependencies for OVA builds
-deps-ova: deps-common
+deps-ova:
+	hack/ensure-ansible.sh
 	hack/ensure-ansible-windows.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	hack/ensure-ovftool.sh
 	$(PACKER) init packer/config.pkr.hcl
 
 .PHONY: deps-openstack
 deps-openstack: ## Installs/checks dependencies for OpenStack builds
-deps-openstack: deps-common
+deps-openstack:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	hack/ensure-s3.sh
 	$(PACKER) init packer/config.pkr.hcl
@@ -114,27 +128,35 @@ deps-openstack: deps-common
 
 .PHONY: deps-qemu
 deps-qemu: ## Installs/checks dependencies for QEMU builds
-deps-qemu: deps-common
+deps-qemu:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 	$(PACKER) plugins install github.com/hashicorp/qemu
 
 .PHONY: deps-raw
 deps-raw: ## Installs/checks dependencies for RAW builds
-deps-raw: deps-common
+deps-raw:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 
 .PHONY: deps-oci
 deps-oci: ## Installs/checks dependencies for OCI builds
-deps-oci: deps-common
+deps-oci:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-ansible-windows.sh
 	$(PACKER) init packer/config.pkr.hcl
 	$(PACKER) plugins install github.com/hashicorp/oracle
 
 .PHONY: deps-powervs
 deps-powervs: ## Installs/checks dependencies for PowerVS builds
-deps-powervs: deps-common
+deps-powervs:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	hack/ensure-powervs.sh
 	$(PACKER) init packer/config.pkr.hcl
@@ -147,7 +169,9 @@ deps-ignition:
 
 .PHONY: deps-nutanix
 deps-nutanix: ## Installs/checks dependencies for Nutanix builds
-deps-nutanix: deps-common
+deps-nutanix:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 	$(PACKER) init packer/nutanix/config.pkr.hcl
@@ -161,7 +185,9 @@ deps-release: ## Installs/checks dependencies for project releases
 
 .PHONY: deps-hcloud
 deps-hcloud: ## Installs/checks dependencies for Hetznercloud builds
-deps-hcloud: deps-common
+deps-hcloud:
+	hack/ensure-ansible.sh
+	hack/ensure-packer.sh
 	hack/ensure-goss.sh
 	$(PACKER) init packer/config.pkr.hcl
 	$(PACKER) init packer/hcloud/config.pkr.hcl
@@ -268,7 +294,7 @@ endif
 # A list of variable files given to Packer to configure things like the versions
 # of Kubernetes, CNI, and ContainerD to install. Any additional files from the
 # environment are appended.
-COMMON_NODE_VAR_FILES := packer/config/kubernetes.json \
+COMMON_NODE_VAR_FILES :=	packer/config/kubernetes.json \
 					packer/config/cni.json \
 					packer/config/containerd.json \
 					packer/config/wasm-shims.json \
@@ -366,7 +392,7 @@ OCI_BUILD_NAMES				?= oci-ubuntu-2004 oci-ubuntu-2204 oci-oracle-linux-8 oci-ora
 
 DO_BUILD_NAMES 				?=	do-centos-7 do-ubuntu-2004 do-ubuntu-2204 do-ubuntu-2404
 
-OPENSTACK_BUILD_NAMES		?=	openstack-ubuntu-2004 openstack-ubuntu-2204 openstack-flatcar
+OPENSTACK_BUILD_NAMES		?=	openstack-ubuntu-2004 openstack-ubuntu-2204 openstack-flatcar openstack-rockylinux-8
 
 OSC_BUILD_NAMES 			?=	osc-ubuntu-2004 osc-ubuntu-2204
 
@@ -590,11 +616,11 @@ $(NUTANIX_VALIDATE_TARGETS): deps-nutanix
 	$(PACKER) validate $(if $(findstring windows,$@),$(PACKER_WINDOWS_NODE_FLAGS),$(PACKER_NODE_FLAGS)) -var-file="packer/nutanix/nutanix.json" -var-file="$(abspath packer/nutanix/$(subst validate-nutanix-,,$@).json)" $(ABSOLUTE_PACKER_VAR_FILES) packer/nutanix/packer$(if $(findstring windows,$@),-windows,).json
 
 .PHONY: $(HCLOUD_BUILD_TARGETS)
-$(HCLOUD_BUILD_TARGETS): deps-hcloud
+$(HCLOUD_BUILD_TARGETS): deps-hcloud 
 	$(PACKER) build $(PACKER_NODE_FLAGS) -var-file="packer/hcloud/hcloud-config.json" -var-file="$(abspath packer/hcloud/$(subst build-hcloud-,,$@).json)" $(ABSOLUTE_PACKER_VAR_FILES) packer/hcloud/packer$(if $(findstring flatcar,$@),-flatcar,).json
 
 .PHONY: $(HCLOUD_VALIDATE_TARGETS)
-$(HCLOUD_VALIDATE_TARGETS): deps-hcloud
+$(HCLOUD_VALIDATE_TARGETS): deps-hcloud 
 	$(PACKER) validate $(PACKER_NODE_FLAGS) -var-file="packer/hcloud/hcloud-config.json" -var-file="$(abspath packer/hcloud/$(subst validate-hcloud-,,$@).json)" $(ABSOLUTE_PACKER_VAR_FILES) packer/hcloud/packer$(if $(findstring flatcar,$@),-flatcar,).json
 
 .PHONY: $(PROXMOX_BUILD_TARGETS)
@@ -786,6 +812,7 @@ build-node-ova-local-base-ubuntu-2004: ## Builds Ubuntu 20.04 Base Node OVA w lo
 
 build-openstack-ubuntu-2004: ## Builds Ubuntu 20.04 OpenStack image
 build-openstack-ubuntu-2204: ## Builds Ubuntu 22.04 OpenStack image
+build-openstack-rockylinux-8: ## Builds Ubuntu 22.04 OpenStack image
 build-openstack-flatcar: ## Builds Flatcar OpenStack image
 build-openstack-all: $(OPENSTACK_BUILD_TARGETS)
 

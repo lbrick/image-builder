@@ -56,3 +56,15 @@ Participation in the Kubernetes community is governed by the [Kubernetes Code of
   *Due to the high-level of commitment and effort required to support production images, this will only be done once all the pre-conditions are met including:*
   - [ ] Create an on-call rotation with sufficient volunteers to provide 365/24/7 coverage
   - [ ] Ensure all licensing requirements are met
+
+containerd 1.5.13
+
+v1.22.17 => crictl v1.22.1
+v1.23.4 => crictl v1.23.0
+
+
+containerd 1.7.8
+
+v1.26.10 => crictl v1.26.1
+v1.27.7 => crictl V1.27.1
+v1.28.3 => crictl v1.28.0
