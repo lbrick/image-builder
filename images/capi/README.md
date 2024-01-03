@@ -8,3 +8,11 @@ For detailed documentation, see https://image-builder.sigs.k8s.io/capi/capi.html
 
 make deps-openstack
 PACKER_VAR_FILES=ubuntu_2204_var.json make build-openstack-ubuntu-2204
+
+PACKER_VAR_FILES=var_file_1.22.17-rocky.json make build-openstack-rockylinux-8
+
+## Note
+
+We can no longer build 1.22 or 1.23 CAPI images as the repo key/xml is no longer able to be downloaded to install those Kubernetes versions.
+
+As of 2024-01-04 Kubernetes 1.24.17 is the oldest version we can build

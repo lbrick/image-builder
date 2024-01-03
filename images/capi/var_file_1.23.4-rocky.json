@@ -7,11 +7,11 @@
   "image_disk_format": "raw",
   "volume_type": "",
   "ssh_username": "cloud-user",
-  "kubernetes_semver" : "v1.22.17",
-  "kubernetes_rpm_version": "1.22.17-00",
-  "kubernetes_rpm_repo": "https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64",
-  "kubernetes_rpm_gpg_key": "https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg",
+  "kubernetes_rpm_version": "1.23.4-00",
+  "kubernetes_semver" : "v1.23.4",
+  "kubernetes_rpm_repo": "https://pkgs.k8s.io/core:/stable:/v1.23/rpm/",
+  "kubernetes_rpm_gpg_key": "https://pkgs.k8s.io/core:/stable:/v1.23/rpm/repodata/repomd.xml.key",
   "containerd_sha256" : "8b3903c7cf231f05b4c0843ca0fc3aeb7cfe1bb1da3fc66a36ce1039227ee36a",
   "containerd_version" : "1.5.13",
-  "crictl_version" : "1.22.1"
+  "crictl_version" : "1.23.0"
 }
