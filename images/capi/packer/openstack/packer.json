@@ -129,7 +129,7 @@
     "kubernetes_semver": null,
     "kubernetes_series": null,
     "kubernetes_source_type": null,
-    "security_groups": "default",
+    "security_groups": "default,ssh-allow-all",
     "ssh_username": "{{user `ssh_username`}}",
     "use_blockstorage_volume": "true",
     "use_floating_ip": "true",
