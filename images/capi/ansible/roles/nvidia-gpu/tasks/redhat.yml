@@ -1,0 +1,55 @@
+---
+- name: Install the nvidia driver
+  shell: >-
+    dnf -y module install nvidia-driver:latest-dkms
+  become: true
+
+# need to restart here??
+
+- name: Install the CUDA toolkit
+  shell: >-
+    dnf -y install cuda-toolkit
+  become: true
+
+- name: Install GPUDirect Filesystem
+  shell: >-
+    dnf -y install nvidia-gds
+  become: true
+
+- name: Symlink ldconfig
+  shell: >-
+    ln -s /sbin/ldconfig /sbin/ldconfig.real
+  become: true
+
+- name: Configure the production repository
+  shell: >-
+    curl -s -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo | \
+    tee /etc/yum.repos.d/nvidia-container-toolkit.repo
+  become: true
+
+- name: Install the NVIDIA Container Toolkit
+  yum:
+    name: nvidia-container-toolkit
+    state: present
+    lock_timeout: 60
+
+- name: Configure the container runtime
+  shell: >-
+    nvidia-ctk runtime configure --runtime=containerd
+  become: true
+
+- name: Restart containerd
+  shell: >-
+    systemctl restart containerd
+  become: true
+
+- name: Disable udev rule - cp
+  shell: >-
+    cp /lib/udev/rules.d/40-redhat.rules /etc/udev/rules.d
+  become: true
+
+- name: Disable udev rule - sed
+  shell: >-
+    sed -i 's/SUBSYSTEM!="memory",.*GOTO="memory_hotplug_end"/SUBSYSTEM=="*", GOTO="memory_hotplug_end"/' /etc/udev/rules.d/40-redhat.rules
+  become: true
+  

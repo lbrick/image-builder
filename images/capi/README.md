@@ -7,9 +7,9 @@ For detailed documentation, see https://image-builder.sigs.k8s.io/capi/capi.html
 ## Building for Openstack CAPI Image
 
 make deps-openstack
-PACKER_VAR_FILES=ubuntu_2204_var.json make build-openstack-ubuntu-2204
+PACKER_VAR_FILES=./image-vars/ubuntu_2204_var.json make build-openstack-ubuntu-2204
 
-PACKER_VAR_FILES=var_file_1.22.17-rocky.json make build-openstack-rockylinux-8
+PACKER_VAR_FILES=./image-vars/var_file_1.22.17-rocky.json make build-openstack-rockylinux-8
 
 ## Note
 

@@ -1,0 +1,58 @@
+---
+##################################################################################
+# Configuration of OpenStack user environment for NeSI OpenStack akl-1 region.
+
+# Path to create virtualenv in which to install python dependencies.
+nesi_akl1_venv: "{{ ansible_env.HOME }}/nesi_akl1-config-venv"
+
+###############################################################################
+# Software images for nesi_akl1
+
+os_images_elements: [ "{{ playbook_dir }}/image-elements" ]
+
+os_images_common: ""
+os_images_build: False
+os_images_force_rebuild: False
+os_images_upload: False
+os_images_promote: True
+os_images_name_suffix: -rc
+os_images_hide: True
+
+#os_images_elements: ["/root/nesi-config/nesi_akl1-config/elements"]
+
+nesi_akl1_images:
+    # - "{{ nesi_akl1_image_nesi_rocky_89_1_22_17 }}"
+    # - "{{ nesi_akl1_image_nesi_rocky_89_1_23_4 }}"
+    # - "{{ nesi_akl1_image_nesi_rocky_89_1_24_17 }}"
+    - "{{ nesi_akl1_image_nesi_rocky_89_1_25_16 }}"
+    - "{{ nesi_akl1_image_nesi_rocky_89_1_26_12 }}"
+    - "{{ nesi_akl1_image_nesi_rocky_89_1_27_7 }}"
+    - "{{ nesi_akl1_image_nesi_rocky_89_1_28_5 }}"
+
+# Nesi CAPI Rocky 8.9 - 1.22.17
+nesi_akl1_image_nesi_rocky_89_1_22_17:
+  name: "rocky-89-kube-v1.22.17-rc"
+
+# Nesi CAPI Rocky 8.9 - 1.23.4
+nesi_akl1_image_nesi_rocky_89_1_23_4:
+  name: "rocky-89-kube-v1.23.4-rc"
+
+# Nesi CAPI Rocky 8.9 - 1.24.17
+nesi_akl1_image_nesi_rocky_89_1_24_17:
+  name: "rocky-89-kube-v1.24.17-rc"
+
+# Nesi CAPI Rocky 8.9 - 1.25.16
+nesi_akl1_image_nesi_rocky_89_1_25_16:
+  name: "rocky-89-kube-v1.25.16-rc"
+
+# Nesi CAPI Rocky 8.9 - 1.26.12
+nesi_akl1_image_nesi_rocky_89_1_26_12:
+  name: "rocky-89-kube-v1.26.12-rc"
+
+# Nesi CAPI Rocky 8.9 - 1.27.7
+nesi_akl1_image_nesi_rocky_89_1_27_7:
+  name: "rocky-89-kube-v1.27.7-rc"
+
+# Nesi CAPI Rocky 8.9 - 1.28.5
+nesi_akl1_image_nesi_rocky_89_1_28_5:
+  name: "rocky-89-kube-v1.28.5-rc"
