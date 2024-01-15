@@ -751,7 +751,8 @@ build-node-ova-local-base-ubuntu-2004: ## Builds Ubuntu 20.04 Base Node OVA w lo
 
 build-openstack-ubuntu-2004: ## Builds Ubuntu 20.04 OpenStack image
 build-openstack-ubuntu-2204: ## Builds Ubuntu 22.04 OpenStack image
-build-openstack-rockylinux-8: ## Builds Ubuntu 22.04 OpenStack image
+build-openstack-rockylinux-8: ## Builds Rocky 8.9 OpenStack image
+build-openstack-rockylinux-8-nvidia-gpu: ## Builds Rocky 8.9 OpenStack image with Nvidia GPU support
 build-openstack-flatcar: ## Builds Flatcar OpenStack image
 build-openstack-all: $(OPENSTACK_BUILD_TARGETS)
 

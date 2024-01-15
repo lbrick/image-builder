@@ -1,0 +1,9 @@
+---
+roles:
+  - name: stackhpc.os-images
+    src: https://github.com/stackhpc/ansible-role-os-images.git
+
+collections:
+  - name: openstack.cloud
+    version: 1.2.1
+    type: galaxy

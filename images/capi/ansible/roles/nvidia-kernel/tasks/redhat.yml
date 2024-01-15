@@ -1,0 +1,26 @@
+---
+- name: Install gcc
+  yum:
+    name: gcc
+    state: present
+    lock_timeout: 60
+
+- name: Install kernel headers and development packages
+  shell: >-
+    dnf -y install kernel-devel-$(uname -r) kernel-headers-$(uname -r)
+  become: true
+  
+- name: Enable the nvidia network repo
+  shell: >-
+    dnf -y config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-rhel8.repo
+  become: true
+
+- name: CRB/PowerTools must be enabled
+  shell: >-
+    crb enable
+  become: true
+
+- name: Perform a dnf update now
+  shell: >-
+    dnf update -y
+  become: true

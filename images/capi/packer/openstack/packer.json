@@ -59,9 +59,33 @@
         "--extra-vars",
         "{{user `ansible_user_vars`}}"
       ],
-      "playbook_file": "./ansible/node.yml",
+      "playbook_file": "./ansible/firstboot.yml",
       "type": "ansible",
       "user": "core"
+    },
+    {
+        "type": "shell",
+        "inline": [ "sudo reboot" ],
+        "expect_disconnect": true
+    },
+    {
+      "ansible_env_vars": [
+        "ANSIBLE_SSH_ARGS='{{user `existing_ansible_ssh_args`}} {{user `ansible_common_ssh_args`}}'"
+      ],
+      "extra_arguments": [
+        "--scp-extra-args",
+        "{{user `ansible_scp_extra_args`}}",
+        "--extra-vars",
+        "{{user `ansible_common_vars`}}",
+        "--extra-vars",
+        "{{user `ansible_extra_vars`}}",
+        "--extra-vars",
+        "{{user `ansible_user_vars`}}"
+      ],
+      "playbook_file": "./ansible/node.yml",
+      "type": "ansible",
+      "user": "core",
+      "pause_before": "30s"      
     },
     {
       "arch": "{{user `goss_arch`}}",
@@ -108,7 +132,7 @@
     "existing_ansible_ssh_args": "{{env `ANSIBLE_SSH_ARGS`}}",
     "floating_ip_network": "public",
     "image_disk_format": "qcow2",
-    "image_name": "{{user `build_name`}}-kube-{{user `kubernetes_semver`}}",
+    "image_name": "{{user `build_name`}}-kube-{{user `kubernetes_semver`}}-rc",
     "image_tags": "k8s,capi",
     "image_visibility": "private",
     "instance_name": "{{user `image_name` | replace_all \".\" \"-\"}}",
