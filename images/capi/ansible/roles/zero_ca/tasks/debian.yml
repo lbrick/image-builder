@@ -1,0 +1,6 @@
+---  
+- name: Install CA certificate
+  copy:
+    content: "{{ ca_cert_data | b64decode }}"
+    dest: "{{debian_ca_cert_dir}}{{ ca_cert_file }}"
+    mode: 0644

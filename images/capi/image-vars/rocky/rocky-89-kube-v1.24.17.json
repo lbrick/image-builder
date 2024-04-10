@@ -1,17 +1,17 @@
 {
   "source_image": "4c019578-2b23-43d9-97d2-fc61218abfab",
-  "networks": "d3a7ddb5-6582-42cf-978a-c99b4ed25ad4",
+  "networks": "a2817737-8370-4401-adc1-dca68aa790c1",
   "flavor": "6b2e76a8-cce0-4175-8160-76e2525d3d3d",
   "floating_ip_network": "external",
   "image_visibility": "private",
   "image_disk_format": "raw",
   "volume_type": "",
   "ssh_username": "cloud-user",
-  "kubernetes_semver" : "v1.26.12",
-  "kubernetes_rpm_version": "1.26.12",
-  "kubernetes_rpm_repo": "https://pkgs.k8s.io/core:/stable:/v1.26/rpm/",
-  "kubernetes_rpm_gpg_key": "https://pkgs.k8s.io/core:/stable:/v1.26/rpm/repodata/repomd.xml.key",
+  "kubernetes_semver" : "v1.24.17",
+  "kubernetes_rpm_version": "1.24.17",
+  "kubernetes_rpm_repo": "https://pkgs.k8s.io/core:/stable:/v1.24/rpm/",
+  "kubernetes_rpm_gpg_key": "https://pkgs.k8s.io/core:/stable:/v1.24/rpm/repodata/repomd.xml.key",
   "containerd_sha256" : "8580552c9e5b7ed6957dda7c55ed40eb72cac83511c5efa568e9a75948e12e03.",
   "containerd_version" : "1.7.8",
-  "crictl_version" : "1.26.1"
+  "crictl_version" : "1.24.1"
 }

@@ -24,10 +24,14 @@ fi
 
 echo "Images         : ${_IMAGES}"
 
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+
 if [ $_IMAGES -eq 1 ]; then
-  echo "ansible-playbook ./nesi-capi-images.yml -i etc/inventory -e @etc/nesi_akl1-capi-images.yml"
-  ansible-playbook ./nesi-capi-images.yml -i etc/inventory -e @etc/nesi_akl1-capi-images.yml
+    yourfilenames=`find ./image-vars/build -type f  -printf "%f\n" | sort`
+    for entry in "$yourfilenames"
+    do
+        echo "$entry"
+        #make deps-openstack
+        #PACKER_VAR_FILES=./image-vars/build/$entry make build-openstack-rockylinux-8
+    done
 fi
-
-
-#ansible-playbook ./nesi-capi-images.yml -i etc/inventory -e @etc/nesi_akl1-capi-images.yml

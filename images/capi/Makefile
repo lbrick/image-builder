@@ -327,7 +327,7 @@ CENTOS_VERSIONS			:=	centos-7
 FLATCAR_VERSIONS		:=	flatcar
 PHOTON_VERSIONS			:=	photon-3 photon-4 photon-5
 RHEL_VERSIONS			:=	rhel-7 rhel-8
-ROCKYLINUX_VERSIONS     :=  rockylinux-8
+ROCKYLINUX_VERSIONS     :=  rockylinux-8 rockylinux-9
 UBUNTU_VERSIONS			:=	ubuntu-2004 ubuntu-2004-efi ubuntu-2204 ubuntu-2204-efi
 WINDOWS_VERSIONS		:=	windows-2019 windows-2022
 
@@ -372,7 +372,7 @@ OCI_BUILD_NAMES			   ?= oci-ubuntu-2004 oci-ubuntu-2204 oci-oracle-linux-8 oci-o
 
 DO_BUILD_NAMES 			?=	do-centos-7 do-ubuntu-2004
 
-OPENSTACK_BUILD_NAMES	?=	openstack-ubuntu-2004 openstack-ubuntu-2204 openstack-flatcar openstack-rockylinux-8
+OPENSTACK_BUILD_NAMES	?=	openstack-ubuntu-2004 openstack-ubuntu-2204 openstack-flatcar openstack-rockylinux-8 openstack-rockylinux-9
 
 OSC_BUILD_NAMES 			?=	osc-ubuntu-2004
 
@@ -753,6 +753,7 @@ build-openstack-ubuntu-2004: ## Builds Ubuntu 20.04 OpenStack image
 build-openstack-ubuntu-2204: ## Builds Ubuntu 22.04 OpenStack image
 build-openstack-rockylinux-8: ## Builds Rocky 8.9 OpenStack image
 build-openstack-rockylinux-8-nvidia-gpu: ## Builds Rocky 8.9 OpenStack image with Nvidia GPU support
+build-openstack-rockylinux-9: ## Builds Rocky 9.3 OpenStack image
 build-openstack-flatcar: ## Builds Flatcar OpenStack image
 build-openstack-all: $(OPENSTACK_BUILD_TARGETS)
 
