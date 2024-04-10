@@ -1,13 +1,14 @@
 {
-  "source_image": "1a0480d1-55c8-4fd7-8c7a-8c26e52d8cbd",
+  "source_image": "cf110f2e-d35d-418f-9a25-9d3277eafddc",
   "networks": "d3a7ddb5-6582-42cf-978a-c99b4ed25ad4",
   "flavor": "6b2e76a8-cce0-4175-8160-76e2525d3d3d",
   "floating_ip_network": "external",
   "image_visibility": "private",
-  "image_disk_format": "qcow2",
+  "image_disk_format": "raw",
   "volume_type": "",
   "ssh_username": "ubuntu",
-  "kubernetes_semver" : "v1.28.3",
+  "kubernetes_semver" : "v1.25.16",
+  "kubernetes_deb_version": "1.25.16-00",
   "containerd_version" : "1.7.8",
-  "crictl_version" : "1.28.0"
+  "crictl_version" : "1.25.1"
 }
