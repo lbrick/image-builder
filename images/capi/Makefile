@@ -51,14 +51,7 @@ version: ## Display version of image-builder
 
 .PHONY: deps
 deps: ## Installs/checks all dependencies
-deps: deps-ami deps-azure deps-do deps-gce deps-ova deps-openstack deps-qemu deps-raw deps-oci deps-osc deps-powervs deps-nutanix deps-hcloud
-
-.PHONY: deps-common
-deps-common: ## Installs/checks dependencies common to most builds
-deps-common:
-	hack/ensure-python.sh
-	hack/ensure-ansible.sh
-	hack/ensure-packer.sh
+deps: deps-ami deps-azure deps-do deps-gce deps-ova deps-openstack deps-qemu deps-raw deps-oci deps-osc deps-vbox deps-powervs deps-nutanix deps-hcloud
 
 .PHONY: deps-ami
 deps-ami: ## Installs/checks dependencies for AMI builds
