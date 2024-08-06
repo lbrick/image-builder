@@ -1,0 +1,19 @@
+{
+  "source_image": "01ffaabf-c3eb-4c47-8198-280d308e2bc5",
+  "networks": "a2817737-8370-4401-adc1-dca68aa790c1",
+  "flavor": "6b2e76a8-cce0-4175-8160-76e2525d3d3d",
+  "floating_ip_network": "external",
+  "image_visibility": "private",
+  "image_disk_format": "raw",
+  "volume_type": "",
+  "ssh_username": "cloud-user",
+  "kubernetes_semver" : "v1.29.6",
+  "kubernetes_rpm_version": "1.29.6",
+  "kubernetes_rpm_repo": "https://pkgs.k8s.io/core:/stable:/v1.29/rpm/",
+  "kubernetes_rpm_gpg_key": "https://pkgs.k8s.io/core:/stable:/v1.29/rpm/repodata/repomd.xml.key",
+  "containerd_sha256" : "f65ef90c95ab82e35d152e9fd3ccaf2e20c1ffc4cc3688ac211def82b7fb59d9.",
+  "containerd_version" : "1.7.19",
+  "crictl_version" : "1.29",
+  "node_custom_roles_post": "zero_ca",
+  "image_name" : "rocky-93-kube-v1.29.6"
+}
