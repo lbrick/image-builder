@@ -58,3 +58,8 @@
     name: "{{ extra_rpms.split() }}"
     state: present
     lock_timeout: 60
+
+- name: Set firewall-cmd default zone to trusted
+  shell: >-
+    firewall-cmd --set-default-zone=trusted
+  become: true

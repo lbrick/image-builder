@@ -259,6 +259,7 @@ endif
 COMMON_NODE_VAR_FILES := packer/config/kubernetes.json \
 					packer/config/cni.json \
 					packer/config/containerd.json \
+					packer/config/crio.json \
 					packer/config/wasm-shims.json \
 					packer/config/ansible-args.json \
 					packer/config/goss-args.json \
@@ -354,7 +355,7 @@ OCI_BUILD_NAMES				?= oci-ubuntu-2004 oci-ubuntu-2204 oci-oracle-linux-8 oci-ora
 
 DO_BUILD_NAMES 				?=	do-centos-7 do-ubuntu-2004 do-ubuntu-2204 do-ubuntu-2404
 
-OPENSTACK_BUILD_NAMES		?=	openstack-ubuntu-2004 openstack-ubuntu-2204 openstack-ubuntu-2404 openstack-flatcar
+OPENSTACK_BUILD_NAMES		?=	openstack-ubuntu-2004 openstack-ubuntu-2204 openstack-ubuntu-2404 openstack-flatcar openstack-rockylinux-9
 
 OSC_BUILD_NAMES 			?=	osc-ubuntu-2004 osc-ubuntu-2204
 
@@ -782,6 +783,7 @@ build-openstack-ubuntu-2004: ## Builds Ubuntu 20.04 OpenStack image
 build-openstack-ubuntu-2204: ## Builds Ubuntu 22.04 OpenStack image
 build-openstack-ubuntu-2404: ## Builds Ubuntu 24.04 OpenStack image
 build-openstack-flatcar: ## Builds Flatcar OpenStack image
+build-openstack-rockylinux-9: ## Builds Rocky 9 OpenStack image
 build-openstack-all: $(OPENSTACK_BUILD_TARGETS)
 
 build-qemu-flatcar: ## Builds Flatcar QEMU image
