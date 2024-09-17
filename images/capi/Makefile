@@ -288,6 +288,7 @@ endif
 COMMON_NODE_VAR_FILES := packer/config/kubernetes.json \
 					packer/config/cni.json \
 					packer/config/containerd.json \
+					packer/config/crio.json \
 					packer/config/wasm-shims.json \
 					packer/config/ansible-args.json \
 					packer/config/goss-args.json \
@@ -812,6 +813,7 @@ build-openstack-ubuntu-2204: ## Builds Ubuntu 22.04 OpenStack image
 build-openstack-ubuntu-2404: ## Builds Ubuntu 24.04 OpenStack image
 build-openstack-rockylinux-9: ## Builds RockyLinux 9 OpenStack image
 build-openstack-flatcar: ## Builds Flatcar OpenStack image
+build-openstack-rockylinux-9: ## Builds Rocky 9 OpenStack image
 build-openstack-all: $(OPENSTACK_BUILD_TARGETS)
 
 build-qemu-flatcar: ## Builds Flatcar QEMU image
