@@ -1,0 +1,53 @@
+---
+crio_cgroup_manager: "systemd"
+crio_conmon: "/usr/local/bin/conmon"
+crio_enable_metrics: false
+crio_log_level: "info"
+crio_metrics_port: "9090"
+crio_pause_image: "registry.k8s.io/pause:3.9"
+
+crio_seccomp_profile: ""
+crio_selinux: false
+crio_signature_policy: ""
+
+# Registries defined within cri-o.
+# By default unqualified images are not allowed for security reasons
+crio_registries: []
+#  - prefix: docker.io
+#    insecure: false
+#    blocked: false
+#    location: registry-1.docker.io ## REQUIRED
+#    unqualified: false
+#    mirrors:
+#      - location: 172.20.100.52:5000
+#        insecure: true
+#      - location: mirror.gcr.io
+#        insecure: false
+
+crio_registry_auth: []
+#  - registry: 10.0.0.2:5000
+#    username: user
+#    password: pass
+
+# cri-o binary files
+crio_bin_files:
+  - conmon
+  - conmonrs
+  - crun
+  - runc
+  - crio
+  - pinns
+
+# The crio_runtimes variable defines a list of OCI compatible runtimes.
+crio_runtimes:
+  - name: runc
+    path: "/usr/local/bin/runc"
+    type: oci
+    root: /run/runc
+
+crio_status_command: crio-status
+
+crio_stream_port: "10010"
+
+# If set to true, it will enable the CRIU support in cri-o
+crio_criu_support_enabled: false

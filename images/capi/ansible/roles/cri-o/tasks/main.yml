@@ -1,0 +1,147 @@
+---
+- name: Download crio
+  ansible.builtin.get_url:
+    url: "{{ crio_url }}"
+    checksum: sha256:{{ crio_sha256 }}
+    dest: /tmp/crio.tar.gz
+    mode: "0600"
+
+- name: Unpack crio
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: /tmp/crio.tar.gz
+    dest: "{{ crio_prefix | default('/tmp') }}"
+    extra_opts:
+      - --no-overwrite-dir
+  when: ansible_os_family != "Flatcar"
+
+# Remove /opt/cni directory, as we will install cni later
+- name: Delete /opt/cni directory
+  ansible.builtin.file:
+    path: /opt/cni
+    state: absent
+
+# Remove /etc/cni directory, as we will configure cni later
+- name: Delete /etc/cni directory
+  ansible.builtin.file:
+    path: /etc/cni
+    state: absent
+
+- name: Creates crio config directories
+  with_items:
+    - /etc/crio
+    - /etc/containers
+    - /etc/systemd/system/crio.service.d
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+
+- name: Create crio memory pressure drop-in file
+  ansible.builtin.template:
+    dest: /etc/systemd/system/crio.service.d/memory-pressure.conf
+    src: etc/systemd/system/crio.service.d/memory-pressure.conf
+    mode: "0644"
+
+- name: Create crio max tasks drop-in file
+  ansible.builtin.template:
+    dest: /etc/systemd/system/crio.service.d/max-tasks.conf
+    src: etc/systemd/system/crio.service.d/max-tasks.conf
+    mode: "0644"
+
+- name: Install cri-o config
+  template:
+    src: etc/crio/crio.conf.j2
+    dest: /etc/crio/crio.conf
+    mode: "0644"
+  register: config_install
+
+- name: Install config.json
+  template:
+    src: etc/crio/config.json.j2
+    dest: /etc/crio/config.json
+    mode: "0644"
+  register: reg_auth_install
+
+- name: Copy in crictl config
+  ansible.builtin.template:
+    src: etc/crictl.yaml
+    dest: /etc/crictl.yaml
+
+- name: Copy crio binaries
+  copy:
+    src: "{{ crio_prefix | default('/tmp') }}/cri-o/bin/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: "0755"
+    remote_src: true
+  with_items:
+    - "{{ crio_bin_files }}"
+  notify: Restart crio
+
+- name: Copy service file
+  copy:
+    src: "/tmp/cri-o/contrib/crio.service"
+    dest: /etc/systemd/system/crio.service
+    mode: "0755"
+    remote_src: true
+  notify: Restart crio
+
+- name: Copy default policy
+  copy:
+    src: "/tmp/cri-o/contrib/policy.json"
+    dest: /etc/containers/policy.json
+    mode: "0755"
+    remote_src: true
+  notify: Restart crio
+
+- name: Copy mounts.conf
+  copy:
+    src: mounts.conf
+    dest: /etc/containers/mounts.conf
+    mode: "0644"
+  when:
+    - ansible_os_family == 'RedHat'
+  notify: Restart crio
+
+- name: Create directory for oci hooks
+  file:
+    path: /etc/containers/oci/hooks.d
+    state: directory
+    owner: root
+    mode: "0755"
+
+- name: Set overlay driver
+  community.general.ini_file:
+    dest: /etc/containers/storage.conf
+    section: storage
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    mode: "0644"
+  with_items:
+    - option: driver
+      value: '"overlay"'
+    - option: graphroot
+      value: '"/var/lib/containers/storage"'
+    - option: runroot
+      value: '"/var/run/containers/storage"'
+
+- name: Ensure crio service is started and enabled
+  service:
+    name: crio
+    daemon_reload: true
+    enabled: true
+    state: started
+  register: service_start
+
+- name: Trigger service restart only when needed
+  service:
+    name: crio
+    state: restarted
+  when:
+    - config_install.changed or reg_auth_install.changed
+    - not service_start.changed
+
+- name: Delete crio tarball
+  ansible.builtin.file:
+    path: /tmp/crio.tar.gz
+    state: absent

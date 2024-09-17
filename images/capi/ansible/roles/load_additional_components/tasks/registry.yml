@@ -12,8 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: Pull additional images from registry
+- name: Pull additional images from registry (containerd)
   ansible.builtin.shell: CONTAINERD_NAMESPACE="k8s.io" {{ sysusr_prefix }}/bin/ctr --address={{ containerd_cri_socket }} images pull {{ item }}
   loop: "{{ additional_registry_images_list.split(',') }}"
   retries: 5
   delay: 3
+  when: "{{ crio_cri_socket }} == ''"
+
+- name: Pull additional images from registry (crio)
+  ansible.builtin.shell: CONTAINERD_NAMESPACE="k8s.io" {{ sysusr_prefix }}/bin/ctr --address={{ crio_cri_socket }} images pull {{ item }}
+  loop: "{{ additional_registry_images_list.split(',') }}"
+  retries: 5
+  delay: 3
+  when: "{{ crio_cri_socket }} != ''"

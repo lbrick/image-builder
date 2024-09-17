@@ -1,12 +1,17 @@
 ---
 - name: Create kubeadm config file
   ansible.builtin.template:
-    dest: /etc/kubeadm.yml
+    dest: /etc/kubeadm.yml.j2
     src: "{{ kubeadm_template }}"
     mode: "0600"
 
-- name: Kubeadm pull images
+- name: Kubeadm pull images (containerd)
   ansible.builtin.shell: kubeadm config images pull --config /etc/kubeadm.yml --cri-socket {{ containerd_cri_socket }}
+  when: "{{ crio_cri_socket }} == ''"
+
+- name: Kubeadm pull images (crio)
+  ansible.builtin.shell: kubeadm config images pull --config /etc/kubeadm.yml --cri-socket {{ crio_cri_socket }}
+  when: "{{ crio_cri_socket }} != ''"
 
 - name: Delete kubeadm config
   ansible.builtin.file:

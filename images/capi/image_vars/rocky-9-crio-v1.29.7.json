@@ -1,0 +1,21 @@
+{
+    "source_image": "01ffaabf-c3eb-4c47-8198-280d308e2bc5",
+    "networks": "a2817737-8370-4401-adc1-dca68aa790c1",
+    "flavor": "6b2e76a8-cce0-4175-8160-76e2525d3d3d",
+    "floating_ip_network": "external",
+    "image_visibility": "private",
+    "image_disk_format": "raw",
+    "volume_type": "",
+    "ssh_username": "cloud-user",
+    "kubernetes_semver" : "v1.29.7",
+    "kubernetes_rpm_version": "1.29.7",
+    "kubernetes_rpm_repo": "https://pkgs.k8s.io/core:/stable:/v1.29/rpm/",
+    "kubernetes_rpm_gpg_key": "https://pkgs.k8s.io/core:/stable:/v1.29/rpm/repodata/repomd.xml.key",
+    "crio_sha256" : "edf0d2aa9d60c65e49b80c0a5a51baba8d2aa89acf49d4a793cec4f4211581a4",
+    "crio_version" : "1.29.7",
+    "crictl_version" : "1.29.0",
+    "crictl_source_type": "http",
+    "node_custom_roles_post": "zero_ca",
+    "image_name" : "rocky-9-crio-v1.29.7",
+    "redhat_epel_rpm" : "https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm"
+  }
