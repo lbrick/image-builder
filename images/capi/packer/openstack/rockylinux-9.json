@@ -1,0 +1,5 @@
+{
+    "build_name": "rocky-9",
+    "distro_name": "rocky",
+    "ssh_username": "cloud-user"
+  }
