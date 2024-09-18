@@ -27,21 +27,21 @@
         crio_repo_os: "CentOS_{{ ansible_distribution_major_version }}_Stream"
       when: ansible_distribution_release != "Core"
 
+- name: Supplied Cri-o version
+  debug:
+    msg: "{{ crio_repo_version }}"
+
 - name: Legacy install
-  when: "crio_version is version_compare('1.28', '<=')"
+  when: "crio_repo_version is version_compare('1.28', '<=')"
   block:
     - name: Add repository
       ansible.builtin.yum_repository:
-        name: devel_kubic_libcontainers_stable
-        baseurl: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ crio_repo_os }}/"
-        gpgkey: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ crio_repo_os }}/repodata/repomd.xml.key"
-        description: Stable releases of Upstream github.com/containers packages ({{ crio_repo_os }})
-    - name: Add repository
-      ansible.builtin.yum_repository:
-        name: "devel_kubic_libcontainers_stable_cri-o_{{ crio_repo_version }}"
-        baseurl: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ crio_repo_version }}/{{ crio_repo_os }}/"
-        gpgkey: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ crio_repo_version }}/{{ crio_repo_os }}/repodata/repomd.xml.key"
-        description: "Stable releases of cri-o packages {{ crio_repo_version }} ({{ crio_repo_os }})"
+        name: isv_kubernetes_addons_cri-o_stable_{{ crio_repo_version }}
+        #baseurl: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ crio_repo_os }}/"
+        baseurl: "https://download.opensuse.org/repositories/isv:/kubernetes:/addons:/cri-o:/stable:/v{{ crio_repo_version }}/rpm/"
+        #gpgkey: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ crio_repo_os }}/repodata/repomd.xml.key"
+        gpgkey: "https://download.opensuse.org/repositories/isv:/kubernetes:/addons:/cri-o:/stable:/v{{ crio_repo_version }}/rpm/repodata/repomd.xml.key"
+        description: Stable releases of cri-o packages {{ crio_repo_version }} (rpm)
     - name: Install crio
       ansible.builtin.yum:
         update_cache: true
