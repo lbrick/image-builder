@@ -1,6 +1,6 @@
 {
     "source_image": "a9f58c77-ca93-4190-b642-aef1a2ef54bb",
-    "networks": "a2817737-8370-4401-adc1-dca68aa790c1",
+    "networks": "e4f071ab-721d-4823-baac-66031ba36f42",
     "flavor": "6b2e76a8-cce0-4175-8160-76e2525d3d3d",
     "floating_ip_network": "external",
     "image_visibility": "private",
@@ -15,6 +15,6 @@
     "crio_version" : "1.29.7",
     "crictl_version" : "1.29.0",
     "crictl_source_type": "http",
-    "image_name" : "rocky-9-crio-v1.29.7",
+    "image_name" : "rocky-9-crio-v1.29.7-rc",
     "redhat_epel_rpm" : "https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm"
   }

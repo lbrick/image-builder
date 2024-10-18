@@ -15,3 +15,5 @@
 crio_config_file: etc/crio/crio.conf
 crio_gvisor_runtime: false
 crio_gvisor_version: latest
+
+crio_disable_builtin_cni: true
