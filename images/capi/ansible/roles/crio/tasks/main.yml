@@ -72,6 +72,7 @@
     path: "{{ item }}"
     state: absent
   loop:
+    - /etc/cni/net.d/11-crio-ipv4-bridge.conflist 
     - /etc/cni/net.d/100-crio-bridge.conflist
     - /etc/cni/net.d/200-loopback.conflist
   when: crio_disable_builtin_cni | bool
