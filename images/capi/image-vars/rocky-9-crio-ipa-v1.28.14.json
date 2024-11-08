@@ -11,11 +11,11 @@
     "kubernetes_rpm_version": "1.28.14",
     "kubernetes_rpm_repo": "https://pkgs.k8s.io/core:/stable:/v1.28/rpm/",
     "kubernetes_rpm_gpg_key": "https://pkgs.k8s.io/core:/stable:/v1.28/rpm/repodata/repomd.xml.key",
-    "cri_flavour": "containerd",
-    "containerd_version" : "1.7.19",
-    "containerd_sha256" : "f65ef90c95ab82e35d152e9fd3ccaf2e20c1ffc4cc3688ac211def82b7fb59d9.",
+    "cri_flavour": "crio",
+    "crio_version" : "1.28.10",
     "crictl_version" : "1.28.0",
     "crictl_source_type": "http",
-    "image_name" : "rocky-9-containerd-v1.28.14-rc",
-    "redhat_epel_rpm" : "https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm"
+    "image_name" : "rocky-9-crio-ipa-v1.28.14-rc",
+    "redhat_epel_rpm" : "https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm",
+    "node_custom_roles_post" : "freeipa"
   }
