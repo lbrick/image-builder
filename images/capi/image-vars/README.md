@@ -22,3 +22,8 @@ ON_ERROR_ASK=1 PACKER_VAR_FILES=./image-vars/rocky-9-crio-v1.28.14.json make bui
 
 openstack image set --property hw_disk_bus=scsi IMAGE_ID
 openstack image set --property hw_scsi_model=virtio-scsi IMAGE_ID
+openstack image unset --property signature_verified IMAGE_ID
+
+openstack image set IMAGE_ID --name NAME_WITHOUT_RC
+
+openstack image set IMAGE_ID --public
