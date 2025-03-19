@@ -1,12 +1,12 @@
 {
-  "source_image": "a9f58c77-ca93-4190-b642-aef1a2ef54bb",
+  "source_image": "ca264c27-5e2e-47ea-90c4-3172191092ee",
   "networks": "e4f071ab-721d-4823-baac-66031ba36f42",
   "flavor": "6b2e76a8-cce0-4175-8160-76e2525d3d3d",
   "floating_ip_network": "external",
   "image_visibility": "private",
   "image_disk_format": "raw",
   "volume_type": "",
-  "ssh_username": "cloud-user",
+  "ssh_username": "rocky",
   "kubernetes_semver" : "v1.30.5",
   "kubernetes_rpm_version": "1.30.5",
   "kubernetes_rpm_repo": "https://pkgs.k8s.io/core:/stable:/v1.30/rpm/",
@@ -16,7 +16,9 @@
   "containerd_sha256" : "5c497f6c2e8262b6a94bb658b0dfe4b2311d844a0c14f2aec3af09569763f834.",
   "crictl_version" : "1.30.1",
   "crictl_source_type": "http",
-  "image_name" : "rocky-9-containerd-ipa-v1.30.5-rc",
+  "image_name" : "rocky-9-containerd-ipa-nvidia-v1.30.5-rc",
   "redhat_epel_rpm" : "https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm",
-  "node_custom_roles_post" : "freeipa"
+  "firstboot_custom_roles_pre": "nvidia-kernel",
+  "node_custom_roles_post": "freeipa nvidia-gpu",
+  "volume_size": "25"
 }
