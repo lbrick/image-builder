@@ -1,27 +1,62 @@
 {
   "builders": [
     {
-      "disable_default_service_account": "{{ user `disable_default_service_account` }}",
-      "disk_size": "{{ user `disk_size` }}",
-      "disk_type": "{{ user `disk_type` }}",
-      "image_family": "{{user `image_family` | clean_resource_name}}",
-      "image_name": "{{user `image_name` | clean_resource_name}}",
-      "labels": {
+      "access_key": "{{user `access_key`}}",
+      "associate_public_ip_address": "{{user `associate_public_ip_address`}}",
+      "availability_zone": "{{user `availability_zone`}}",
+      "eip_bandwidth_size": "{{user `eip_bandwidth_size`}}",
+      "eip_type": "{{user `eip_type`}}",
+      "flavor": "{{user `flavor`}}",
+      "image_description": "{{user `image_description`}}",
+      "image_name": "{{user `image_name`}}",
+      "image_tags": {
+        "build_date": "{{isotime `2006-01-02`}}",
         "build_timestamp": "{{user `build_timestamp`}}",
+        "containerd_version": "{{user `containerd_version`}}",
         "distribution": "{{user `distribution`}}",
         "distribution_release": "{{user `distribution_release`}}",
         "distribution_version": "{{user `distribution_version`}}",
-        "kubernetes_version": "{{user `kubernetes_semver` | clean_resource_name}}"
+        "image_builder_version": "{{user `ib_version`}}",
+        "kubernetes_cni_version": "{{user `kubernetes_cni_semver`}}",
+        "kubernetes_version": "{{user `kubernetes_semver`}}"
       },
-      "machine_type": "{{ user `machine_type` }}",
-      "name": "{{user `build_name`}}",
-      "project_id": "{{ user `project_id` }}",
-      "service_account_email": "{{ user `service_account_email` }}",
-      "source_image_family": "{{ user `source_image_family` }}",
+      "image_type": "system",
+      "kms_key_id": "{{user `kms_key_id`}}",
+      "pause_before_connecting": "{{user `pause_before_connecting`}}",
+      "region": "{{user `region`}}",
+      "secret_key": "{{user `secret_key`}}",
+      "security_groups": "{{user `security_groups`}}",
+      "source_image": "{{user `source_image`}}",
+      "source_image_filter": {
+        "filters": {
+          "name": "{{user `image_filter_name`}}",
+          "visibility": "public"
+        },
+        "most_recent": true
+      },
+      "ssh_ip_version": 4,
       "ssh_username": "{{user `ssh_username`}}",
-      "type": "googlecompute",
-      "use_internal_ip": "{{ user `use_internal_ip`}}",
-      "zone": "{{ user `zone` }}"
+      "subnets": "{{user `subnets`}}",
+      "type": "huaweicloud-ecs",
+      "user_data": "{{user `user_data`}}",
+      "user_data_file": "{{user `user_data_file`}}",
+      "volume_size": "{{user `volume_size`}}",
+      "volume_type": "{{user `volume_type`}}",
+      "vpc_id": "{{user `vpc_id`}}",
+      "wait_image_ready_timeout": "{{user `wait_image_ready_timeout`}}"
+    }
+  ],
+  "post-processors": [
+    {
+      "custom_data": {
+        "containerd_gvisor_runtime": "{{user `containerd_gvisor_runtime`}}",
+        "containerd_gvisor_version": "{{user `containerd_gvisor_version`}}",
+        "containerd_version": "{{user `containerd_version`}}",
+        "kubernetes_cni_version": "{{user `kubernetes_cni_semver`}}",
+        "kubernetes_version": "{{user `kubernetes_semver`}}"
+      },
+      "output": "{{user `manifest_output`}}",
+      "type": "manifest"
     }
   ],
   "provisioners": [
@@ -63,7 +98,7 @@
         "ARCH": "amd64",
         "OS": "{{user `distribution` | lower}}",
         "OS_VERSION": "{{user `distribution_version` | lower}}",
-        "PROVIDER": "gcp",
+        "PROVIDER": "huaweicloud",
         "containerd_version": "{{user `containerd_version`}}",
         "kubernetes_cni_deb_version": "{{ user `kubernetes_cni_deb_version` }}",
         "kubernetes_cni_rpm_version": "{{ split (user `kubernetes_cni_rpm_version`) \"-\" 0 }}",
@@ -78,9 +113,13 @@
     }
   ],
   "variables": {
+    "access_key": "",
     "ansible_common_vars": "",
     "ansible_extra_vars": "",
     "ansible_scp_extra_args": "",
+    "ansible_user_vars": "",
+    "associate_public_ip_address": "true",
+    "availability_zone": "ap-southeast-1g",
     "build_timestamp": "{{timestamp}}",
     "containerd_gvisor_runtime": "false",
     "containerd_gvisor_version": "latest",
@@ -89,13 +128,14 @@
     "containerd_version": null,
     "crictl_url": "https://github.com/kubernetes-sigs/cri-tools/releases/download/v{{user `crictl_version`}}/crictl-v{{user `crictl_version`}}-linux-amd64.tar.gz",
     "crictl_version": null,
-    "disable_default_service_account": "",
-    "disk_size": "20",
-    "disk_type": "pd-standard",
-    "encrypted": "false",
+    "eip_bandwidth_size": "5",
+    "eip_type": "5_bgp",
     "existing_ansible_ssh_args": "{{env `ANSIBLE_SSH_ARGS`}}",
-    "image_family": "capi-{{user `build_name`}}-k8s-{{user `kubernetes_series`}}",
-    "image_name": "cluster-api-{{user `build_name`}}-{{user `kubernetes_semver`}}-{{user `build_timestamp`}}",
+    "flavor": "x1.2u.4g",
+    "ib_version": "{{env `IB_VERSION`}}",
+    "image_description": "Cluster API base image designed for {{user `kubernetes_semver`}}",
+    "image_name": "caphw-hwi-{{user `build_name`}}-{{user `kubernetes_semver`}}-{{user `build_timestamp`}}",
+    "kms_key_id": "",
     "kubernetes_cni_deb_version": null,
     "kubernetes_cni_http_source": null,
     "kubernetes_cni_rpm_version": null,
@@ -105,6 +145,7 @@
     "kubernetes_deb_gpg_key": null,
     "kubernetes_deb_repo": null,
     "kubernetes_deb_version": null,
+    "kubernetes_enable_automatic_resource_sizing": "false",
     "kubernetes_http_source": null,
     "kubernetes_load_additional_imgs": null,
     "kubernetes_rpm_gpg_check": null,
@@ -112,13 +153,22 @@
     "kubernetes_rpm_repo": null,
     "kubernetes_rpm_version": null,
     "kubernetes_semver": null,
-    "kubernetes_series": null,
     "kubernetes_source_type": null,
-    "machine_type": "n1-standard-1",
-    "project_id": "{{env `GCP_PROJECT_ID`}}",
-    "service_account_email": "",
-    "source_image_family": "{{user `source_image_family`}}",
-    "use_internal_ip": "false",
-    "zone": null
+    "manifest_output": "manifest.json",
+    "pause_before_connecting": "1m",
+    "python_path": "",
+    "region": "ap-southeast-1",
+    "secret_key": "",
+    "security_groups": "",
+    "ssh_keypair_name": "",
+    "ssh_private_key_file": "",
+    "ssh_username": "root",
+    "subnet_id": "",
+    "user_data": "#cloud-config\nrepo_upgrade: none",
+    "user_data_file": "",
+    "volume_size": "10",
+    "volume_type": "GPSSD",
+    "vpc_id": "",
+    "wait_image_ready_timeout": "1h"
   }
 }
