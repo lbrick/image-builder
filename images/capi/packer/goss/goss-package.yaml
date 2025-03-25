@@ -73,6 +73,7 @@ package:
 {{end}}
 {{end}}
 
+
 {{ if eq .Vars.OS "windows"}} # Windows
 # Workaround until windows features are added to goss
 command:
