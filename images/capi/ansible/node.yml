@@ -30,9 +30,8 @@
         name: node
     - ansible.builtin.include_role:
         name: providers
-    - name: "Configuring {{ cri_flavour }}"
-      ansible.builtin.include_role:
-        name: "{{ cri_flavour }}"
+    - ansible.builtin.include_role:
+        name: containerd
     - ansible.builtin.include_role:
         name: kubernetes
     - ansible.builtin.include_role:
