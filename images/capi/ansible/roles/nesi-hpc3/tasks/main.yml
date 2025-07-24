@@ -1,0 +1,41 @@
+---
+- name: Install FreeIPA client package (RHEL)
+  dnf:
+    name: ipa-client
+  when: ansible_os_family == "RedHat"
+
+- name: Install FreeIPA client package (Debian)
+  apt:
+    name: freeipa-client
+  when: ansible_os_family == "Debian"
+
+- name: Ensure extra repos
+  ansible.builtin.yum_repository:
+    name: nesi-slurm
+    file: nesi-slurm
+    description: "SLURM Packages built by NeSI"
+    baseurl: "https://prod-pulp.hpc.nesi.org.nz/pulp/content/nesi-slurm/"
+    gpgcheck: false
+
+- name: Update package cache
+  ansible.builtin.shell:
+    sudo dnf makecache
+
+- name: Install SLURM packages with dependencies
+  dnf:
+    name: "{{ slurm_packages }}"
+    state: present
+
+- name: Setup SLURM group
+  ansible.builtin.group:
+    name: "slurm"
+    system: true
+    state: present
+
+- name: Setup SLURM user account
+  ansible.builtin.user:
+    name: "slurm"
+    group: "slurm"
+    system: true
+    shell: /sbin/nologin
+    create_home: false
