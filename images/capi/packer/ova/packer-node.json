@@ -140,6 +140,8 @@
         "{{user `boot_command_suffix`}}"
       ],
       "boot_wait": "{{user `boot_wait`}}",
+      "cd_files": "{{user `cd_content_location`}}",
+      "cd_label": "{{user `cd_label`}}",
       "cdrom_type": "{{user `cdrom_type`}}",
       "cluster": "{{user `cluster`}}",
       "communicator": "ssh",
@@ -172,6 +174,8 @@
         }
       ],
       "password": "{{user `password`}}",
+      "remote_cache_cleanup": "true",
+      "remove_cdrom": "true",
       "resource_pool": "{{user `resource_pool`}}",
       "shutdown_command": "echo '{{user `ssh_password`}}' | sudo -S -E sh -c '{{user `shutdown_command`}}'",
       "ssh_clear_authorized_keys": "false",
@@ -237,6 +241,8 @@
         }
       ],
       "password": "{{user `password`}}",
+      "remote_cache_cleanup": "true",
+      "remove_cdrom": "true",
       "resource_pool": "{{user `resource_pool`}}",
       "shutdown_command": "echo '{{user `ssh_password`}}' | sudo -S -E sh -c 'userdel -f -r {{user `ssh_username`}} && rm -f /etc/sudoers.d/{{user `ssh_username` }} && {{user `shutdown_command`}}'",
       "ssh_password": "{{user `ssh_password`}}",
@@ -421,6 +427,14 @@
       "user": "{{user `ssh_username`}}"
     },
     {
+      "environment_vars": [
+        "ENABLE_DISK_PACKING={{user `enable_disk_packing`}}"
+      ],
+      "execute_command": "if [[ \"${ENABLE_DISK_PACKING}\" == *\"true\"* ]]; then chmod +x {{ .Path }}; sudo {{ .Path }}; fi",
+      "script": "./packer/files/ova/scripts/optimize-disk.sh",
+      "type": "shell"
+    },
+    {
       "arch": "{{user `goss_arch`}}",
       "download_path": "{{user `goss_download_path`}}",
       "except": [
@@ -447,6 +461,8 @@
         "OS_VERSION": "{{user `distro_version` | lower}}",
         "PROVIDER": "ova",
         "block_nouveau_loading": "{{user `block_nouveau_loading`}}",
+        "containerd_gvisor_runtime": "{{user `containerd_gvisor_runtime`}}",
+        "containerd_gvisor_version": "{{user `containerd_gvisor_version`}}",
         "containerd_version": "{{user `containerd_version`}}",
         "kubernetes_cni_deb_version": "{{ user `kubernetes_cni_deb_version` }}",
         "kubernetes_cni_rpm_version": "{{ split (user `kubernetes_cni_rpm_version`) \"-\" 0 }}",
@@ -484,6 +500,7 @@
     "datastore": "",
     "destroy": "false",
     "disk_size": "20480",
+    "enable_disk_packing": "true",
     "existing_ansible_ssh_args": "{{env `ANSIBLE_SSH_ARGS`}}",
     "export_manifest": "none",
     "folder": "",
