@@ -1,0 +1,23 @@
+{
+  "source_image": "a1568e6d-9aa0-401b-a741-9622e20b776d",
+  "networks": "e4f071ab-721d-4823-baac-66031ba36f42",
+  "flavor": "6b2e76a8-cce0-4175-8160-76e2525d3d3d",
+  "floating_ip_network": "external",
+  "image_visibility": "private",
+  "image_disk_format": "raw",
+  "volume_type": "",
+  "kubernetes_semver" : "v1.33.3",
+  "kubernetes_rpm_version": "1.33.3",
+  "kubernetes_rpm_repo": "https://pkgs.k8s.io/core:/stable:/v1.33/rpm/",
+  "kubernetes_rpm_gpg_key": "https://pkgs.k8s.io/core:/stable:/v1.33/rpm/repodata/repomd.xml.key",
+  "cri_flavour": "containerd",
+  "containerd_version" : "1.7.26",
+  "containerd_sha256" : "1f23eb3e5d87b3f8903b940aecd37cc9d9d1d05ee93c5bb652aa2bf87aae0079",
+  "crictl_version" : "1.33.0",
+  "crictl_source_type": "http",
+  "image_name" : "rocky-9-containerd-hpc-nvidia-v1.33.3-rc",
+  "redhat_epel_rpm" : "https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm",
+  "node_custom_roles_pre": "nvidia-kernel",
+  "node_custom_roles_post": "nesi-hpc3 nvidia-gpu",
+  "volume_size": "25"
+}

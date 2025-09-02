@@ -21,6 +21,8 @@ https://github.com/containerd/containerd/releases/download/VERSION/cri-container
 
 ON_ERROR_ASK=1 PACKER_VAR_FILES=./image-vars/rocky-9-containerd-v1.32.7.json make build-openstack-rockylinux-9
 
+ON_ERROR_ASK=1 PACKER_VAR_FILES=./image-vars/rocky-9-containerd-hpc-nvidia-v1.33.3.json make build-openstack-rockylinux-9
+
 ## Update Image properties
 
 openstack image set --property hw_disk_bus=scsi IMAGE_ID
