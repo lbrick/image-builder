@@ -10,3 +10,8 @@ slurm_version: 24.11.5
 slurm_packages:
   - slurm-sackd-{{ slurm_version }}-1.nesi.el9
   - munge
+
+sackd_options:
+  - "--conf-server slurmcontrol"
+  # - "--debug"
+  # - "--log-file /var/log/sackd.log"

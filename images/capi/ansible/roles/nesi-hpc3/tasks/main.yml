@@ -39,3 +39,19 @@
     system: true
     shell: /sbin/nologin
     create_home: false
+    
+- name: Ensure /etc/sysconfig/sackd exists
+  file:
+    path: /etc/sysconfig/sackd
+    state: touch
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Ensure SACKD_OPTIONS is set
+  lineinfile:
+    path: /etc/sysconfig/sackd
+    regexp: '^SACKD_OPTIONS='
+    line: "SACKD_OPTIONS={{ sackd_options | join(' ') }}'"
+    create: yes
+    backup: yes

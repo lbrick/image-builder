@@ -57,4 +57,18 @@
   shell: >-
     sed -i 's/SUBSYSTEM!="memory",.*GOTO="memory_hotplug_end"/SUBSYSTEM=="*", GOTO="memory_hotplug_end"/' /etc/udev/rules.d/40-redhat.rules
   become: true
-  
+
+- name: Install nvidia-dkms version {{ nvidia_driver_version }}
+  shell: >-
+    dkms install -m nvidia -v {{ nvidia_driver_version }}
+  become: true
+
+# - name: Modprobe nvidia-dkms module
+#   shell: >-
+#     modprobe nvidia
+#   become: true
+
+- name: Persist nvidia-dkms the module at boot
+  shell: >-
+    echo "nvidia" >> /etc/modules-load.d/nvidia.conf
+  become: true
