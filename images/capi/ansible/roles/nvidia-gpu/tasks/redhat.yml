@@ -1,74 +1,58 @@
----
 - name: Enable the nvidia network repo
-  shell: >-
-    dnf -y config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/cuda-rhel9.repo
-  become: true
-  
-- name: Install the nvidia driver
-  shell: >-
-    dnf -y install nvidia-driver nvidia-settings
+  ansible.builtin.command:
+    cmd: dnf -y config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/cuda-rhel9.repo
   become: true
 
-# need to restart here??
+- name: Install the NVIDIA driver (DKMS included)
+  ansible.builtin.dnf:
+    name:
+      - nvidia-driver
+      - nvidia-settings
+    state: present
+  become: true
+
+# Optional reboot if you need the driver active before CUDA toolkit install
+- name: Reboot after driver install
+  ansible.builtin.reboot:
+    msg: "Rebooting to load NVIDIA kernel modules"
+    connect_timeout: 5
+    reboot_timeout: 600
+    pre_reboot_delay: 0
+    post_reboot_delay: 30
+  become: true
 
 - name: Install the CUDA toolkit
-  shell: >-
-    dnf -y install cuda-toolkit
+  ansible.builtin.dnf:
+    name: cuda-toolkit
+    state: present
   become: true
 
 - name: Install GPUDirect Filesystem
-  shell: >-
-    dnf -y install nvidia-gds
+  ansible.builtin.dnf:
+    name: nvidia-gds
+    state: present
   become: true
 
-- name: Symlink ldconfig
-  shell: >-
-    ln -s /sbin/ldconfig /sbin/ldconfig.real
-  become: true
-
-- name: Configure the production repository
-  shell: >-
-    curl -s -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo | \
-    tee /etc/yum.repos.d/nvidia-container-toolkit.repo
+- name: Configure NVIDIA container toolkit repo
+  ansible.builtin.get_url:
+    url: https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo
+    dest: /etc/yum.repos.d/nvidia-container-toolkit.repo
   become: true
 
 - name: Install the NVIDIA Container Toolkit
-  yum:
+  ansible.builtin.dnf:
     name: nvidia-container-toolkit
     state: present
     lock_timeout: 60
+  become: true
 
-- name: Configure the container runtime
-  shell: >-
-    nvidia-ctk runtime configure --runtime=containerd
+- name: Configure container runtime
+  ansible.builtin.command:
+    cmd: nvidia-ctk runtime configure --runtime=containerd
   become: true
 
 - name: Restart containerd
-  shell: >-
-    systemctl restart containerd
-  become: true
-
-- name: Disable udev rule - cp
-  shell: >-
-    cp /lib/udev/rules.d/40-redhat.rules /etc/udev/rules.d
-  become: true
-
-- name: Disable udev rule - sed
-  shell: >-
-    sed -i 's/SUBSYSTEM!="memory",.*GOTO="memory_hotplug_end"/SUBSYSTEM=="*", GOTO="memory_hotplug_end"/' /etc/udev/rules.d/40-redhat.rules
-  become: true
-
-- name: Install nvidia-dkms version {{ nvidia_driver_version }}
-  shell: >-
-    dkms install -m nvidia -v {{ nvidia_driver_version }}
-  become: true
-
-# - name: Modprobe nvidia-dkms module
-#   shell: >-
-#     modprobe nvidia
-#   become: true
-
-- name: Persist nvidia-dkms the module at boot
-  shell: >-
-    echo "nvidia" >> /etc/modules-load.d/nvidia.conf
+  ansible.builtin.systemd:
+    name: containerd
+    state: restarted
   become: true
