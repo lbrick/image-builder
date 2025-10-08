@@ -1,0 +1,20 @@
+{
+  "source_image": "a1568e6d-9aa0-401b-a741-9622e20b776d",
+  "networks": "e4f071ab-721d-4823-baac-66031ba36f42",
+  "flavor": "6b2e76a8-cce0-4175-8160-76e2525d3d3d",
+  "floating_ip_network": "external",
+  "image_visibility": "private",
+  "image_disk_format": "raw",
+  "volume_type": "",
+  "kubernetes_semver" : "v1.34.0",
+  "kubernetes_rpm_version": "1.34.0",
+  "kubernetes_rpm_repo": "https://pkgs.k8s.io/core:/stable:/v1.34/rpm/",
+  "kubernetes_rpm_gpg_key": "https://pkgs.k8s.io/core:/stable:/v1.34/rpm/repodata/repomd.xml.key",
+  "cri_flavour": "containerd",
+  "containerd_version" : "1.7.28",
+  "containerd_sha256" : "aa6d3637d0fb38ae6b9a13b69d14a767fcfc57154ecf915a0d754923a9d46341",
+  "crictl_version" : "1.34.0",
+  "crictl_source_type": "http",
+  "image_name" : "rocky-9-containerd-v1.34.0-rc",
+  "redhat_epel_rpm" : "https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm"
+}

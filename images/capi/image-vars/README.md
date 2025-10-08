@@ -35,4 +35,4 @@ openstack image set IMAGE_ID --name NAME_WITHOUT_RC
 
 openstack image set IMAGE_ID --public
 
-a828c94f-5b18-415d-82c6-48cc6ede7380
+883e6403-c053-4d35-9492-16270721ea51
